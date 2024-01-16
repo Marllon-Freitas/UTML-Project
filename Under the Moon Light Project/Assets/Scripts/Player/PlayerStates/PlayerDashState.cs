@@ -13,8 +13,8 @@ public class PlayerDashState : PlayerState
         base.Enter();
 
         //create a clone if the player has the clone skill
-        if (SkillManager.instance.cloneSkill != null)
-            player.skillManager.cloneSkill.CreateCloneOnDashStart();
+        if (SkillManager.instance.dashSkill != null)
+            player.skillManager.dashSkill.CloneOnDash();
 
         stateTimer = player.dashDuration;
         if (player.IsGroundDetected())
@@ -25,7 +25,7 @@ public class PlayerDashState : PlayerState
     {
         base.Exit();
 
-        player.skillManager.cloneSkill.CreateCloneOnDashOver();
+        player.skillManager.dashSkill.CloneOnArrival();
         player.SetVelocity(0f, rb.velocity.y);
     }
 

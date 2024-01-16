@@ -169,8 +169,12 @@ public class Player : Entity
         UpdateScarfOffset();
         LerpYCamera();
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && skillManager.crystalSkill.crystalUnlocked)
             skillManager.crystalSkill.CanUseSkill();
+
+        //button to heal
+        if (Input.GetKeyDown(KeyCode.H))
+            Inventory.instance.UseFlask();
     }
 
     public override void SlowEntityBy(float _slowPercent, float _slowDuration)
@@ -205,10 +209,10 @@ public class Player : Entity
         //shake the camera
         CameraShakeManager.Instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
         //get player component from whatIsPlayer
-        GetComponent<TimeStopWhenHit>().StopTime(0.05f, 10, 0.1f);
+        GetComponent<TimeStopWhenHit>()
+            .StopTime(0.05f, 10, 0.1f);
         //not let the player move for a while
         StartCoroutine(BusyFor(0.2f));
-
     }
 
     private void LerpYCamera()
@@ -245,6 +249,9 @@ public class Player : Entity
     private void CheckForDashInput()
     {
         if (IsWallDetected())
+            return;
+
+        if (skillManager.dashSkill.dashUnlocked == false)
             return;
 
         if (dashState != null)

@@ -82,6 +82,7 @@ public class Enemy : Entity
     }
     public virtual void AnimationFinishTrigger() => stateMachine.CurrentState.AnimationFinishTrigger();
 
+    public virtual void FreezeTimeFor(float _duration) => StartCoroutine(FreezeTimerCoroutine(_duration));
     public virtual void FreezeTime(bool timeFrozen)
     {
         if (timeFrozen)
@@ -96,7 +97,7 @@ public class Enemy : Entity
         }
     }
 
-    protected virtual IEnumerator FreezeTimerFor(float seconds)
+    protected virtual IEnumerator FreezeTimerCoroutine(float seconds)
     {
         FreezeTime(true);
         yield return new WaitForSeconds(seconds);

@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerGroundedState : PlayerState
 {
-    public PlayerGroundedState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerGroundedState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        string animatorBoolName
+    )
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {
@@ -22,7 +25,7 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if ((Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Mouse1)) && HasNoSword())
+        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword())
             stateMachine.ChangeState(player.aimSwordState);
 
         if (Input.GetKeyDown(KeyCode.R) && player.IsGroundDetected())
@@ -34,13 +37,17 @@ public class PlayerGroundedState : PlayerState
         if (!player.IsGroundDetected())
             stateMachine.ChangeState(player.airState);
 
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z)) && player.IsGroundDetected())
+        if (
+            (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z))
+            && player.IsGroundDetected()
+        )
             stateMachine.ChangeState(player.jumpState);
 
-        if (Input.GetKeyDown(KeyCode.E) && player.counterAttackCooldownTimer <= 0)
+        if (Input.GetKeyDown(KeyCode.E) && player.skillManager.parrySkill.parryUnlocked)
         {
+            // player.counterAttackCooldownTimer <= 0
             stateMachine.ChangeState(player.counterAttack);
-            player.counterAttackCooldownTimer = player.counterAttackCooldown;
+            // player.counterAttackCooldownTimer = player.counterAttackCooldown;
         }
     }
 

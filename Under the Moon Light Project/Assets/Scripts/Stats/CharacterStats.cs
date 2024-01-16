@@ -1,5 +1,25 @@
+using System.Collections;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+
+public enum StatType
+{
+    strength,
+    agility,
+    intelligence,
+    vitality,
+    damage,
+    critChance,
+    critPower,
+    health,
+    armor,
+    evasion,
+    magicRes,
+    fireDamage,
+    iceDamage,
+    lightingDamage
+}
+
 
 public class CharacterStats : MonoBehaviour
 {
@@ -96,9 +116,9 @@ public class CharacterStats : MonoBehaviour
         }
 
         totalDamage = CheckTargetArmor(_targetStats, totalDamage);
-
-        //DoMagicDamage(_targetStats);
         _targetStats.TakeDamage(totalDamage);
+
+        DoMagicDamage(_targetStats); //remove if you don't want magic damage
     }
 
     #region Magical Damage and Effects
@@ -152,7 +172,7 @@ public class CharacterStats : MonoBehaviour
             _targetStats.SetupIgniteDamage(Mathf.RoundToInt(_fireDamage * 0.2f));
 
         if (canApplyShock)
-            _targetStats.SetupShockDamage(Mathf.RoundToInt(_lightningDamage * 0.2f));
+            _targetStats.SetupShockDamage(Mathf.RoundToInt(_lightningDamage));
 
         _targetStats.ApplyEffects(canApplyIgnite, canApplyFreeze, canApplyShock);
     }
@@ -206,9 +226,9 @@ public class CharacterStats : MonoBehaviour
 
     private void HitTargetsWithThunderStrike()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 30); // Aumente o raio para 30 unidades ou ajuste conforme necessário
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 30); // Aumente o raio para 30 unidades ou ajuste conforme necessï¿½rio
 
-        // Encontrar o inimigo mais próximo
+        // Encontrar o inimigo mais prï¿½ximo
         float closestDistance = Mathf.Infinity;
         Transform closestEnemy = null;
 
@@ -226,21 +246,21 @@ public class CharacterStats : MonoBehaviour
             }
         }
 
-        // Ataque o inimigo mais próximo, se encontrado
+        // Ataque o inimigo mais prï¿½ximo, se encontrado
         if (closestEnemy != null)
         {
             GameObject shockStrike = Instantiate(shockStrikePrefab, transform.position, Quaternion.identity);
             shockStrike.GetComponent<ThunderStrike_Controller>().Setup(shockDamage, closestEnemy.GetComponent<CharacterStats>());
         }
 
-        // Iterar novamente para atacar todos os outros inimigos dentro de uma distância maior
+        // Iterar novamente para atacar todos os outros inimigos dentro de uma distï¿½ncia maior
         foreach (var hit in colliders)
         {
             if (hit.GetComponent<Enemy>() != null && hit.transform != closestEnemy)
             {
                 float distanceToEnemy = Vector2.Distance(transform.position, hit.transform.position);
 
-                if (distanceToEnemy <= 30.0f) // Ajuste a distância conforme necessário
+                if (distanceToEnemy <= 30.0f) // Ajuste a distï¿½ncia conforme necessï¿½rio
                 {
                     // Ataque o inimigo
                     GameObject shockStrike = Instantiate(shockStrikePrefab, transform.position, Quaternion.identity);
@@ -291,10 +311,37 @@ public class CharacterStats : MonoBehaviour
         onHealthChanged?.Invoke();
     }
 
+    public virtual void IncreaseHealthBy(int _healAmount)
+    {
+        currentHealth += _healAmount;
+        if (currentHealth > GetMaxHealthValue())
+            currentHealth = GetMaxHealthValue();
+        if (onHealthChanged != null)
+            onHealthChanged?.Invoke();
+    }
+
+    public virtual void IncreaseStatsBy(int _modifier, float _duration, Stat _statToModify)
+    {
+        StartCoroutine(StatModifierCoroutine(_modifier, _duration, _statToModify));
+    }
+
+    private IEnumerator StatModifierCoroutine(int _modifier, float _duration, Stat _statToModify)
+    {
+        _statToModify.AddModifier(_modifier);
+
+        yield return new WaitForSeconds(_duration);
+
+        _statToModify.RemoveModifier(_modifier);
+    }
+
     protected virtual void Die()
     {
         isDead = true;
         Debug.Log(transform.name + " died.");
+    }
+
+    public virtual void OnEvasion()
+    {
     }
 
     #region Stats Calculations
@@ -310,6 +357,7 @@ public class CharacterStats : MonoBehaviour
         if (Random.Range(0, 100) < totalEvasion)
         {
             Debug.Log("Attack voided");
+            _targetStats.OnEvasion();
             return true;
         }
         return false;
@@ -358,4 +406,24 @@ public class CharacterStats : MonoBehaviour
     }
 
     #endregion
+
+    public Stat GetStat(StatType _statType)
+    {
+        if (_statType == StatType.strength) return strength;
+        else if (_statType == StatType.agility) return agility;
+        else if (_statType == StatType.intelligence) return intelligence;
+        else if (_statType == StatType.vitality) return vitality;
+        else if (_statType == StatType.damage) return damage;
+        else if (_statType == StatType.critChance) return critChance;
+        else if (_statType == StatType.critPower) return critPower;
+        else if (_statType == StatType.health) return maxHealth;
+        else if (_statType == StatType.armor) return armor;
+        else if (_statType == StatType.evasion) return evasion;
+        else if (_statType == StatType.magicRes) return magicResistance;
+        else if (_statType == StatType.fireDamage) return fireDamage;
+        else if (_statType == StatType.iceDamage) return iceDamage;
+        else if (_statType == StatType.lightingDamage) return lightningDamage;
+
+        return null;
+    }
 }

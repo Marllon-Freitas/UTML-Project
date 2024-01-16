@@ -15,7 +15,11 @@ public class ItemData_Equipment : ItemData
 {
     public EquipmentType equipmentType;
 
-    //public ItemEffect[] itemEffects;
+    [Header("Unique Effect")]
+    public float itemCooldown;
+    public ItemEffect[] itemEffects;
+    [TextArea]
+    public string uniqueEffectDescription;
 
     [Header("Major Stats")]
     public int strength;
@@ -43,13 +47,16 @@ public class ItemData_Equipment : ItemData
     [Header("Craft requirements")]
     public List<InventoryItem> craftingMaterials;
 
-    //public void Effect(Transform _enemyPosition)
-    //{
-    //    foreach (var item in itemEffects)
-    //    {
-    //        item.ExecuteEffect(_enemyPosition);
-    //    }
-    //}
+    private int descriptionLength;
+
+
+    public void Effect(Transform _enemyPosition)
+    {
+        foreach (var item in itemEffects)
+        {
+            item.ExecuteEffect(_enemyPosition);
+        }
+    }
 
     public void AddModifiers()
     {
@@ -77,21 +84,6 @@ public class ItemData_Equipment : ItemData
         playerStats.fireDamage.AddModifier(fireDamage);
         playerStats.iceDamage.AddModifier(iceDamage);
         playerStats.lightningDamage.AddModifier(lightningDamage);
-
-
-        switch (equipmentType)
-        {
-            case EquipmentType.Weapon:
-            break;
-            case EquipmentType.Armor:
-            break;
-            case EquipmentType.Amulet:
-            break;
-            case EquipmentType.Flask:
-            break;
-            default:
-            break;
-        }
     }
 
     public void RemoveModifiers()
@@ -120,5 +112,77 @@ public class ItemData_Equipment : ItemData
         playerStats.fireDamage.RemoveModifier(fireDamage);
         playerStats.iceDamage.RemoveModifier(iceDamage);
         playerStats.lightningDamage.RemoveModifier(lightningDamage);
+    }
+
+    public override string GetDescription()
+    {
+        sb.Length = 0;
+        descriptionLength = 0;
+
+        AddItemDescription(strength, "Strength");
+        AddItemDescription(agility, "Agility");
+        AddItemDescription(intelligence, "Intelligence");
+        AddItemDescription(vitality, "Vitality");
+
+        AddItemDescription(damage, "Damage");
+        AddItemDescription(critChance, "Crit.Chance");
+        AddItemDescription(critPower, "Crit.Power");
+
+        AddItemDescription(maxHealth, "Health");
+        AddItemDescription(evasion, "Evasion");
+        AddItemDescription(armor, "Armor");
+        AddItemDescription(magicResistance, "Magic Resist.");
+
+        AddItemDescription(fireDamage, "Fire damage");
+        AddItemDescription(iceDamage, "Ice damage");
+        AddItemDescription(lightningDamage, "Lighting dmg. ");
+
+
+
+
+
+        for (int i = 0; i < itemEffects.Length; i++)
+        {
+            if (itemEffects[i].effectDescription.Length > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine("Unique: " + itemEffects[i].effectDescription);
+                descriptionLength++;
+            }
+        }
+
+
+        if (descriptionLength < 5)
+        {
+            for (int i = 0; i < 5 - descriptionLength; i++)
+            {
+                sb.AppendLine();
+                sb.Append("");
+            }
+        }
+
+        if (uniqueEffectDescription.Length > 0)
+        {
+            sb.AppendLine();
+            sb.AppendLine(uniqueEffectDescription);
+        }
+
+
+
+        return sb.ToString();
+    }
+
+    private void AddItemDescription(int _value, string _name)
+    {
+        if (_value != 0)
+        {
+            if (sb.Length > 0)
+                sb.AppendLine();
+
+            if (_value > 0)
+                sb.Append("+ " + _value + " " + _name);
+
+            descriptionLength++;
+        }
     }
 }

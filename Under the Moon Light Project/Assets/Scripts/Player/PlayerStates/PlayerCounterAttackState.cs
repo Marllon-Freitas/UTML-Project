@@ -5,9 +5,13 @@ using UnityEngine;
 public class PlayerCounterAttackState : PlayerState
 {
     private bool canCreateClone;
-    public PlayerCounterAttackState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+
+    public PlayerCounterAttackState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        string animatorBoolName
+    )
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {
@@ -28,7 +32,10 @@ public class PlayerCounterAttackState : PlayerState
 
         player.SetZeroVelocity();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(player.attackCheck.position, player.attackCheckRadius);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(
+            player.attackCheck.position,
+            player.attackCheckRadius
+        );
 
         foreach (var hit in colliders)
         {
@@ -40,10 +47,12 @@ public class PlayerCounterAttackState : PlayerState
                     player.animator.SetBool("SuccessfulCounterAttack", true);
                     player.GetComponent<TimeStopWhenHit>().StopTime(0.07f, 11, 0.2f);
 
+                    player.skillManager.parrySkill.UseSkill(); // restore health on parry
+
                     if (canCreateClone)
                     {
                         canCreateClone = false;
-                        player.skillManager.cloneSkill.CreateCloneOnCounterAttack(hit.transform);
+                        player.skillManager.parrySkill.MakeMirageOnParry(hit.transform);
                     }
                 }
             }
