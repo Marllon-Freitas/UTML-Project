@@ -25,10 +25,18 @@ public class PlayerGroundedState : PlayerState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && HasNoSword() && player.skillManager.swordThrowSkill.swordUnlockd)
+        if (
+            Input.GetKeyDown(KeyCode.Mouse1)
+            && HasNoSword()
+            && player.skillManager.swordThrowSkill.swordUnlockd
+        )
             stateMachine.ChangeState(player.aimSwordState);
 
-        if (Input.GetKeyDown(KeyCode.R) && player.IsGroundDetected())
+        if (
+            Input.GetKeyDown(KeyCode.R)
+            && player.IsGroundDetected()
+            && player.skillManager.blackHoleSkill.blackHoleUnlocked
+        )
             stateMachine.ChangeState(player.blackHoleState);
 
         if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Mouse0))

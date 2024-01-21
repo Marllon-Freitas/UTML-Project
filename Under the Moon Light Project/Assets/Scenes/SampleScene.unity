@@ -19459,6 +19459,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingItems:
+  - {fileID: 11400000, guid: 86458cd0da5d0d141a05ef79e15e294a, type: 2}
   - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
   - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
   - {fileID: 11400000, guid: 1b5f9ddf2d033f74da34c3022a491823, type: 2}
@@ -19471,7 +19472,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e73d0e228a4509147b6743e26a762330, type: 2}
   - {fileID: 11400000, guid: 11415f8cace17034784f21566f3630d6, type: 2}
   - {fileID: 11400000, guid: 4b292587e3c7b7c4a9cc0c96ff610fe1, type: 2}
-  - {fileID: 11400000, guid: 25bddfb5d9a06664ab96d7803d56ca87, type: 2}
   inventory: []
   stash: []
   equipment: []
@@ -55923,11 +55923,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  attackMultiplier: 0
   clonePrefab: {fileID: 1489333348596067502, guid: 8eb3551bee6278848900604ddd81f5ef, type: 3}
   cloneDuration: 1.5
+  cloneAttackUnlockButton: {fileID: 440194968}
+  cloneAttackMultiplier: 0.3
   canAttack: 0
+  agressiveCloneUnlockButton: {fileID: 2064200489}
+  agressiveCloneMultiplier: 0.8
+  multipleClonesUnlockButton: {fileID: 843702815}
+  multipleClonesAttackMultiplier: 0.3
   canDuplicateClone: 0
-  chanceToDuplicate: 0
+  chanceToDuplicate: 24.44
+  crystalInsteadOfCloneUnlockButton: {fileID: 338068627}
   crystalInsteadOfClone: 0
 --- !u!114 &1574572160
 MonoBehaviour:
@@ -55980,6 +55988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0
+  blackHoleUnlockButton: {fileID: 847932365}
   cloneCooldown: 0.35
   amountOfAttacks: 15
   blackHoleDuration: 4

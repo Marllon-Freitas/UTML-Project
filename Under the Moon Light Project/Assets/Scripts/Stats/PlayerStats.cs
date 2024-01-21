@@ -35,6 +35,26 @@ public class PlayerStats : CharacterStats
         player.skillManager.dodgeSkill.CreateMirageOnDodge();
     }
 
+    public void CloneDoDamage(CharacterStats _targetStats, float _attackMultiplier)
+    {
+        if (TargetCanAvoidAttack(_targetStats))
+            return;
+
+        int totalDamage = damage.GetValue() + strength.GetValue();
+        if (_attackMultiplier > 0)
+            totalDamage = Mathf.RoundToInt(totalDamage * _attackMultiplier);
+
+        if (CanCrit())
+        {
+            totalDamage = CalculateCritDamage(totalDamage);
+        }
+
+        totalDamage = CheckTargetArmor(_targetStats, totalDamage);
+        _targetStats.TakeDamage(totalDamage);
+
+        DoMagicDamage(_targetStats); //remove if you don't want magic damage
+    }
+
     protected override void Die()
     {
         base.Die();
