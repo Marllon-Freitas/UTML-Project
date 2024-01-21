@@ -8,9 +8,7 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject skillTreeUI;
     [SerializeField] private GameObject craftUI;
     [SerializeField] private GameObject optionsUI;
-    //[SerializeField] private GameObject inGameUI;
-
-
+    [SerializeField] private GameObject inGameUi;
 
     public SkillToolTip_UI skillToolTip;
     public ItemToolTip_UI itemToolTip;
@@ -19,13 +17,13 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        SwitchTo(skillTreeUI); // we need this to assign events on skill tree slots before we asssign events on skill scripts
+        SwitchTo(skillTreeUI);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        SwitchTo(null);
+        SwitchTo(inGameUi);
 
         itemToolTip.gameObject.SetActive(false);
         statToolTip.gameObject.SetActive(false);
@@ -65,14 +63,14 @@ public class UI : MonoBehaviour
         if (_menu != null && _menu.activeSelf)
         {
             _menu.SetActive(false);
-            //CheckForInGameUI();
+            CheckForInGameUI();
             return;
         }
 
         SwitchTo(_menu);
     }
 
-    private void CheckForInGameUI(GameObject _menu)
+    private void CheckForInGameUI()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -80,6 +78,6 @@ public class UI : MonoBehaviour
                 return;
         }
 
-        SwitchTo(_menu);
+        SwitchTo(inGameUi);
     }
 }
