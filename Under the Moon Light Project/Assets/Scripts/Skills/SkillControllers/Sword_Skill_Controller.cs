@@ -54,7 +54,13 @@ public class Sword_Skill_Controller : MonoBehaviour
         circleCollider2D = GetComponent<CircleCollider2D>();
     }
 
-    public void SetupSword(Vector2 direction, float gravityScale, Player _player, float _freezeTimeDuration, float _returnSpeed)
+    public void SetupSword(
+        Vector2 direction,
+        float gravityScale,
+        Player _player,
+        float _freezeTimeDuration,
+        float _returnSpeed
+    )
     {
         player = _player;
         freezeTimeDuration = _freezeTimeDuration;
@@ -91,7 +97,12 @@ public class Sword_Skill_Controller : MonoBehaviour
         pierceAmount = _pierceAmount;
     }
 
-    public void SetupSpin(bool _isSpinning, float _maxTravelDistance, float _spinDuration, float _hitCooldown)
+    public void SetupSpin(
+        bool _isSpinning,
+        float _maxTravelDistance,
+        float _spinDuration,
+        float _hitCooldown
+    )
     {
         isSpinning = _isSpinning;
         maxTravelDistance = _maxTravelDistance;
@@ -106,7 +117,11 @@ public class Sword_Skill_Controller : MonoBehaviour
 
         if (isReturning)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, returnSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                player.transform.position,
+                returnSpeed * Time.deltaTime
+            );
             if (Vector2.Distance(transform.position, player.transform.position) < 0.2f)
                 player.CatchTheSword();
         }
@@ -119,7 +134,10 @@ public class Sword_Skill_Controller : MonoBehaviour
     {
         if (isSpinning)
         {
-            if (Vector2.Distance(player.transform.position, transform.position) > maxTravelDistance && !wasStopped)
+            if (
+                Vector2.Distance(player.transform.position, transform.position) > maxTravelDistance
+                && !wasStopped
+            )
             {
                 StopWhenSpinning();
             }
@@ -128,7 +146,11 @@ public class Sword_Skill_Controller : MonoBehaviour
             {
                 spinTimer -= Time.deltaTime;
 
-                transform.position = Vector2.MoveTowards(transform.position, new Vector2(transform.position.x + spinDirection, transform.position.y), .5f * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    new Vector2(transform.position.x + spinDirection, transform.position.y),
+                    .5f * Time.deltaTime
+                );
 
                 if (spinTimer < 0)
                 {
@@ -164,7 +186,11 @@ public class Sword_Skill_Controller : MonoBehaviour
     {
         if (isBouncing && enemyTarget.Count > 0)
         {
-            transform.position = Vector2.MoveTowards(transform.position, enemyTarget[targetIndex].position, bounceSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                enemyTarget[targetIndex].position,
+                bounceSpeed * Time.deltaTime
+            );
 
             if (Vector2.Distance(transform.position, enemyTarget[targetIndex].position) < 0.1f)
             {
@@ -202,8 +228,14 @@ public class Sword_Skill_Controller : MonoBehaviour
 
     private void SwordSkillDamage(Enemy enemy)
     {
-        player.characterStats.DoDamage(enemy.GetComponent<CharacterStats>());
-        enemy.FreezeTimeFor(freezeTimeDuration);
+        EnemyStats enemyStats = enemy.GetComponent<EnemyStats>();
+        player.characterStats.DoDamage(enemyStats);
+
+        if (player.skillManager.swordThrowSkill.timeStopUnlocked)
+            enemy.FreezeTimeFor(freezeTimeDuration);
+
+        if (player.skillManager.swordThrowSkill.vulnerableUnlocked)
+            enemyStats.MakeVulnerableFor(freezeTimeDuration);
 
         ItemData_Equipment equipAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
 
