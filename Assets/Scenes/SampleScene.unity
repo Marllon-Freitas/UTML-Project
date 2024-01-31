@@ -1815,6 +1815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.caralhodeucerto
+  encryptData: 1
 --- !u!1001 &81958479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21847,6 +21848,7 @@ MonoBehaviour:
   statSlotParent: {fileID: 720913603}
   flaskCooldown: 0
   loadedItems: []
+  loadedEquipment: []
 --- !u!4 &1089371170
 Transform:
   m_ObjectHideFlags: 0

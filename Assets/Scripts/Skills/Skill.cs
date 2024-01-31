@@ -9,11 +9,10 @@ public class Skill : MonoBehaviour
 
     protected Player player;
 
-
     protected virtual void Start()
     {
         player = PlayerManager.instance.player;
-
+        CheckUnlock();
     }
 
     protected virtual void Update()
@@ -21,6 +20,10 @@ public class Skill : MonoBehaviour
         cooldownTimer -= Time.deltaTime;
     }
 
+    protected virtual void CheckUnlock()
+    {
+        // check if skill is unlocked
+    }
 
     public virtual bool CanUseSkill()
     {
@@ -30,7 +33,6 @@ public class Skill : MonoBehaviour
             cooldownTimer = cooldown;
             return true;
         }
-
 
         Debug.Log("Skill is on cooldown");
         return false;
@@ -52,14 +54,16 @@ public class Skill : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
-                float distanceToEnemy = Vector2.Distance(_checkTransform.position, hit.transform.position);
+                float distanceToEnemy = Vector2.Distance(
+                    _checkTransform.position,
+                    hit.transform.position
+                );
 
                 if (distanceToEnemy < closestDistance)
                 {
                     closestDistance = distanceToEnemy;
                     closestEnemy = hit.transform;
                 }
-
             }
         }
 

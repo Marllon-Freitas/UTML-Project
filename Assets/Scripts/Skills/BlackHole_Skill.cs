@@ -33,7 +33,6 @@ public class BlackHole_Skill : Skill
 
     BlackHole_Skill_Controller currentBlackHole;
 
-
     public override bool CanUseSkill()
     {
         return base.CanUseSkill();
@@ -72,6 +71,11 @@ public class BlackHole_Skill : Skill
         base.Start();
 
         blackHoleUnlockButton.GetComponent<Button>().onClick.AddListener(UnlockBlackHole);
+    }
+
+    protected override void CheckUnlock()
+    {
+        UnlockBlackHole();
     }
 
     protected override void Update()

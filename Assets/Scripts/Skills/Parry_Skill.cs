@@ -51,6 +51,13 @@ public class Parry_Skill : Skill
             .onClick.AddListener(UnlockParryWithMirage);
     }
 
+    protected override void CheckUnlock()
+    {
+        UnlockParry();
+        UnlockParryRestoreHealth();
+        UnlockParryWithMirage();
+    }
+
     private void UnlockParry()
     {
         if (parryUnlockButton == true)

@@ -9,10 +9,14 @@ public class FileDataHandle
     private string dataDirPath = "";
     private string dataFileName = "";
 
-    public FileDataHandle(string _dataDirPath, string _dataFileName)
+    private bool encryptData = false;
+    private string encryptionPassword = "SenhaMuitoComplicada";
+
+    public FileDataHandle(string _dataDirPath, string _dataFileName, bool _encryptData = false)
     {
         dataDirPath = _dataDirPath;
         dataFileName = _dataFileName;
+        encryptData = _encryptData;
     }
 
     public void Save(GameData _data)
@@ -22,6 +26,10 @@ public class FileDataHandle
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
             string json = JsonUtility.ToJson(_data, true);
+
+            if (encryptData)
+                json = EncryptDecrypt(json);
+
             using (FileStream stream = new FileStream(fullPath, FileMode.Create))
             {
                 using (StreamWriter writer = new StreamWriter(stream))
@@ -53,6 +61,9 @@ public class FileDataHandle
                     }
                 }
 
+                if (encryptData)
+                    dataToLoad = EncryptDecrypt(dataToLoad);
+
                 loadData = JsonUtility.FromJson<GameData>(dataToLoad);
             }
             catch (Exception e)
@@ -61,5 +72,33 @@ public class FileDataHandle
             }
         }
         return loadData;
+    }
+
+    public void Delete()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        if (File.Exists(fullPath))
+        {
+            try
+            {
+                File.Delete(fullPath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error deleting file: " + fullPath + "\n" + e.Message);
+            }
+        }
+    }
+
+    private string EncryptDecrypt(string _data)
+    {
+        string modifiedData = "";
+        for (int i = 0; i < _data.Length; i++)
+        {
+            int charValue = _data[i];
+            charValue ^= encryptionPassword[i % encryptionPassword.Length];
+            modifiedData += (char)charValue;
+        }
+        return modifiedData;
     }
 }

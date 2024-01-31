@@ -77,6 +77,15 @@ public class Crystal_Skill : Skill
             .onClick.AddListener(UnlockMultiStackingCrystal);
     }
 
+    protected override void CheckUnlock()
+    {
+        UnlockCrystal();
+        UnlockCrystalMirage();
+        UnlockExplosiveCrystal();
+        UnlockMovingCrystal();
+        UnlockMultiStackingCrystal();
+    }
+
     #region  Unlocking skills
     private void UnlockCrystal()
     {
