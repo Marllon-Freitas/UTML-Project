@@ -5,10 +5,17 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class ItemSlot_UI : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot_UI
+    : MonoBehaviour,
+        IPointerDownHandler,
+        IPointerEnterHandler,
+        IPointerExitHandler
 {
-    [SerializeField] protected Image itemImage;
-    [SerializeField] protected TextMeshProUGUI itemText;
+    [SerializeField]
+    protected Image itemImage;
+
+    [SerializeField]
+    protected TextMeshProUGUI itemText;
 
     public InventoryItem item;
     protected UI ui;
@@ -50,13 +57,11 @@ public class ItemSlot_UI : MonoBehaviour, IPointerDownHandler, IPointerEnterHand
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-
         if (Input.GetKey(KeyCode.LeftControl))
         {
             Inventory.instance.RemoveItem(item.itemData);
             return;
         }
-
 
         if (item.itemData.itemType == ItemType.Equipment)
             Inventory.instance.EquipItem(item.itemData);

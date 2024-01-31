@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class StatToolTip_UI : ToolTip_UI
 {
-
-    [SerializeField] private TextMeshProUGUI description;
+    [SerializeField]
+    private TextMeshProUGUI description;
 
     public void ShowStatToolTip(string _text)
     {
         description.text = _text;
+        AdjustPosition();
         gameObject.SetActive(true);
     }
 

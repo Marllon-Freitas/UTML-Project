@@ -34,6 +34,6 @@ public class ToolTip_UI : MonoBehaviour
     public void AdjustFontSize(TextMeshProUGUI _text)
     {
         if (_text.text.Length > 12)
-            _text.fontSize = _text.fontSize * .8f;
+            _text.fontSize *= .8f;
     }
 }

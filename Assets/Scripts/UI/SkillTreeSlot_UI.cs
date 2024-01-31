@@ -7,18 +7,27 @@ using UnityEngine.UI;
 public class SkillTreeSlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private UI ui;
-    [SerializeField] private string skillName;
 
-    [SerializeField] private int skillPrice;
+    [SerializeField]
+    private string skillName;
+
+    [SerializeField]
+    private int skillCost;
 
     [TextArea]
-    [SerializeField] private string skillDescription;
-    [SerializeField] private Color lockedSkillColor;
+    [SerializeField]
+    private string skillDescription;
+
+    [SerializeField]
+    private Color lockedSkillColor;
 
     public bool unlocked;
 
-    [SerializeField] private SkillTreeSlot_UI[] shouldBeUnlocked;
-    [SerializeField] private SkillTreeSlot_UI[] shouldBeLocked;
+    [SerializeField]
+    private SkillTreeSlot_UI[] shouldBeUnlocked;
+
+    [SerializeField]
+    private SkillTreeSlot_UI[] shouldBeLocked;
 
     private Image skillImage;
 
@@ -39,12 +48,11 @@ public class SkillTreeSlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExi
         skillImage = GetComponent<Image>();
 
         skillImage.color = lockedSkillColor;
-
     }
 
     public void UnlockSkillSlot()
     {
-        if (PlayerManager.instance.HaveEnoughMoney(skillPrice) == false)
+        if (PlayerManager.instance.HaveEnoughMoney(skillCost) == false)
         {
             Debug.Log("Cannot Unlock Skill");
             return;
@@ -74,8 +82,9 @@ public class SkillTreeSlot_UI : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ui.skillToolTip.ShowToolTip(skillName, skillDescription);
+        ui.skillToolTip.ShowToolTip(skillName, skillDescription, skillCost);
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
         ui.skillToolTip.HideToolTip();

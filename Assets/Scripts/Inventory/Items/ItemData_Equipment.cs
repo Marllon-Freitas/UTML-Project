@@ -18,8 +18,9 @@ public class ItemData_Equipment : ItemData
     [Header("Unique Effect")]
     public float itemCooldown;
     public ItemEffect[] itemEffects;
-    [TextArea]
-    public string uniqueEffectDescription;
+
+    // [TextArea]
+    // public string uniqueEffectDescription;
 
     [Header("Major Stats")]
     public int strength;
@@ -36,6 +37,7 @@ public class ItemData_Equipment : ItemData
     public int maxHealth;
     public int armor;
     public int evasion;
+
     //magic stuff
     public int magicResistance;
 
@@ -48,7 +50,6 @@ public class ItemData_Equipment : ItemData
     public List<InventoryItem> craftingMaterials;
 
     private int descriptionLength;
-
 
     public void Effect(Transform _enemyPosition)
     {
@@ -137,10 +138,6 @@ public class ItemData_Equipment : ItemData
         AddItemDescription(iceDamage, "Ice damage");
         AddItemDescription(lightningDamage, "Lighting dmg. ");
 
-
-
-
-
         for (int i = 0; i < itemEffects.Length; i++)
         {
             if (itemEffects[i].effectDescription.Length > 0)
@@ -151,7 +148,6 @@ public class ItemData_Equipment : ItemData
             }
         }
 
-
         if (descriptionLength < 5)
         {
             for (int i = 0; i < 5 - descriptionLength; i++)
@@ -160,14 +156,6 @@ public class ItemData_Equipment : ItemData
                 sb.Append("");
             }
         }
-
-        if (uniqueEffectDescription.Length > 0)
-        {
-            sb.AppendLine();
-            sb.AppendLine(uniqueEffectDescription);
-        }
-
-
 
         return sb.ToString();
     }
