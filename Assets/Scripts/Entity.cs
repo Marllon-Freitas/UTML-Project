@@ -9,12 +9,21 @@ public class Entity : MonoBehaviour
     public float attackCheckRadius;
 
     [Header("Collision Info")]
-    [SerializeField] protected Transform groundCheck;
-    [SerializeField] protected float groundCheckDistance;
-    [SerializeField] protected LayerMask whatIsGround;
+    [SerializeField]
+    protected Transform groundCheck;
+
+    [SerializeField]
+    protected float groundCheckDistance;
+
+    [SerializeField]
+    protected LayerMask whatIsGround;
+
     [Space]
-    [SerializeField] protected Transform wallCheck;
-    [SerializeField] protected float wallCheckDistance;
+    [SerializeField]
+    protected Transform wallCheck;
+
+    [SerializeField]
+    protected float wallCheckDistance;
 
     #region Components
     public Animator animator { get; private set; }
@@ -26,8 +35,11 @@ public class Entity : MonoBehaviour
     #endregion
 
     [Header("Knock back Info")]
-    [SerializeField] protected Vector2 knockBackDirection;
-    [SerializeField] protected float knockBackDuration;
+    [SerializeField]
+    protected Vector2 knockBackDirection;
+
+    [SerializeField]
+    protected float knockBackDuration;
     protected bool isKnocked;
 
     public int facingDirection { get; private set; } = 1;
@@ -49,23 +61,26 @@ public class Entity : MonoBehaviour
         capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
 
-    protected virtual void Update()
-    {
-
-    }
+    protected virtual void Update() { }
 
     protected virtual void ReturnDefaultSpeed()
     {
         animator.speed = 1;
     }
 
-    public virtual void SlowEntityBy(float _slowPercent, float _slowDuration)
-    {
-    }
+    public virtual void SlowEntityBy(float _slowPercent, float _slowDuration) { }
 
     #region Collision
-    public virtual bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
-    public virtual bool IsWallDetected() => Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, wallCheckDistance, whatIsGround);
+    public virtual bool IsGroundDetected() =>
+        Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, whatIsGround);
+
+    public virtual bool IsWallDetected() =>
+        Physics2D.Raycast(
+            wallCheck.position,
+            Vector2.right * facingDirection,
+            wallCheckDistance,
+            whatIsGround
+        );
 
     protected virtual void OnDrawGizmos()
     {
@@ -142,8 +157,5 @@ public class Entity : MonoBehaviour
     }
     #endregion
 
-    public virtual void Die()
-    {
-
-    }
+    public virtual void Die() { }
 }

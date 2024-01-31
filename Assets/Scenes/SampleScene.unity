@@ -21822,9 +21822,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - {fileID: 11400000, guid: 86458cd0da5d0d141a05ef79e15e294a, type: 2}
-  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
-  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
-  - {fileID: 11400000, guid: 1b5f9ddf2d033f74da34c3022a491823, type: 2}
   - {fileID: 11400000, guid: 168a858d40c1dfc42a60177a034fea77, type: 2}
   - {fileID: 11400000, guid: 168a858d40c1dfc42a60177a034fea77, type: 2}
   - {fileID: 11400000, guid: 317a051afd99e0345a8062252ea7fbac, type: 2}
@@ -21834,6 +21831,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e73d0e228a4509147b6743e26a762330, type: 2}
   - {fileID: 11400000, guid: 11415f8cace17034784f21566f3630d6, type: 2}
   - {fileID: 11400000, guid: 4b292587e3c7b7c4a9cc0c96ff610fe1, type: 2}
+  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
+  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
+  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
+  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
+  - {fileID: 11400000, guid: 8af343bd8bcef5c4a9c5a1553ca628af, type: 2}
+  - {fileID: 11400000, guid: 1b5f9ddf2d033f74da34c3022a491823, type: 2}
+  - {fileID: 11400000, guid: 1b5f9ddf2d033f74da34c3022a491823, type: 2}
   inventory: []
   stash: []
   equipment: []
@@ -21842,8 +21846,6 @@ MonoBehaviour:
   equipmentSlotParent: {fileID: 448889948}
   statSlotParent: {fileID: 720913603}
   flaskCooldown: 0
-  assetsName: []
-  itemDataBase: []
   loadedItems: []
 --- !u!4 &1089371170
 Transform:

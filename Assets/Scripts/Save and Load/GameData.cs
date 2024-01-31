@@ -7,10 +7,12 @@ public class GameData
 {
     public int currency;
     public SerializableDictionary<string, int> inventory;
+    public List<string> equipmentId;
 
     public GameData()
     {
         this.currency = 0;
-        this.inventory = new SerializableDictionary<string, int>();
+        inventory = new SerializableDictionary<string, int>();
+        equipmentId = new List<string>();
     }
 }
