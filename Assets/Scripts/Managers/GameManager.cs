@@ -12,6 +12,18 @@ public class GameManager : MonoBehaviour, ISaveManager
 
     [SerializeField]
     private string closestCheckpointId;
+
+    [Header("Lost Souls")]
+    [SerializeField]
+    private GameObject lostSoulsPrefab;
+    public int lostSoulsAmount;
+
+    [SerializeField]
+    private float lostSoulsXPosition;
+
+    [SerializeField]
+    private float lostSoulsYPosition;
+
     private Transform player;
 
     private void Awake()
@@ -36,7 +48,52 @@ public class GameManager : MonoBehaviour, ISaveManager
         SceneManager.LoadScene(scene.name);
     }
 
-    public void LoadData(GameData _data)
+    public void SaveData(ref GameData _data)
+    {
+        _data.lostSoulsXPosition = player.position.x;
+        _data.lostSoulsYPosition = player.position.y;
+        _data.lostSoulsAmount = lostSoulsAmount;
+
+        if (FindClosestCheckpoint() != null)
+            _data.closestCheckpointId = FindClosestCheckpoint().checkpointId;
+        _data.checkpoints.Clear();
+
+        foreach (Checkpoint checkpoint in checkpoints)
+        {
+            _data.checkpoints.Add(checkpoint.checkpointId, checkpoint.isCheckpointActive);
+        }
+    }
+
+    public void LoadData(GameData _data) => StartCoroutine(LoadWithDelay(_data));
+
+    private void LoadLostSouls(GameData _data)
+    {
+        lostSoulsAmount = _data.lostSoulsAmount;
+        lostSoulsXPosition = _data.lostSoulsXPosition;
+        lostSoulsYPosition = _data.lostSoulsYPosition;
+
+        if (lostSoulsAmount > 0)
+        {
+            GameObject lostSouls = Instantiate(
+                lostSoulsPrefab,
+                new Vector3(lostSoulsXPosition, lostSoulsYPosition),
+                Quaternion.identity
+            );
+            lostSouls.GetComponent<LostSoulsController>().currency = lostSoulsAmount;
+        }
+
+        lostSoulsAmount = 0;
+    }
+
+    private IEnumerator LoadWithDelay(GameData _data)
+    {
+        yield return new WaitForSeconds(0.1f);
+        LoadCheckpoints(_data);
+        PlacePlayerAtClosestCheckpoint(_data);
+        LoadLostSouls(_data);
+    }
+
+    private void LoadCheckpoints(GameData _data)
     {
         foreach (KeyValuePair<string, bool> pair in _data.checkpoints)
         {
@@ -48,28 +105,19 @@ public class GameManager : MonoBehaviour, ISaveManager
                 }
             }
         }
-
-        closestCheckpointId = _data.closestCheckpointId;
-        Invoke("PlacePlayerAtClosestCheckpoint", 0.1f);
     }
 
-    private void PlacePlayerAtClosestCheckpoint()
+    private void PlacePlayerAtClosestCheckpoint(GameData _data)
     {
+        if (_data.closestCheckpointId == null)
+            return;
+
+        closestCheckpointId = _data.closestCheckpointId;
+
         foreach (Checkpoint checkpoint in checkpoints)
         {
             if (checkpoint.checkpointId == closestCheckpointId)
-                PlayerManager.instance.player.transform.position = checkpoint.transform.position;
-        }
-    }
-
-    public void SaveData(ref GameData _data)
-    {
-        _data.closestCheckpointId = FindClosestCheckpoint().checkpointId;
-        _data.checkpoints.Clear();
-
-        foreach (Checkpoint checkpoint in checkpoints)
-        {
-            _data.checkpoints.Add(checkpoint.checkpointId, checkpoint.isCheckpointActive);
+                player.position = checkpoint.transform.position;
         }
     }
 
@@ -80,10 +128,7 @@ public class GameManager : MonoBehaviour, ISaveManager
 
         foreach (Checkpoint checkpoint in checkpoints)
         {
-            float distance = Vector2.Distance(
-                PlayerManager.instance.player.transform.position,
-                checkpoint.transform.position
-            );
+            float distance = Vector2.Distance(player.position, checkpoint.transform.position);
             if (distance < closestDistance && checkpoint.isCheckpointActive == true)
             {
                 closestDistance = distance;

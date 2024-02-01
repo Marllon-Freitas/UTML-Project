@@ -60,6 +60,12 @@ public class PlayerStats : CharacterStats
         base.Die();
         player.Die();
 
+        GameManager.instance.lostSoulsAmount = PlayerManager.instance.currency;
+        PlayerManager.instance.currency = 0;
+
+        // make the  camerashake stop
+        CameraShakeManager.Instance.StopShake();
+
         GetComponent<PlayerItemDrop>()?.GenerateDrop();
     }
 }

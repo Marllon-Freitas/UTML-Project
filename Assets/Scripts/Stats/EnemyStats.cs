@@ -6,15 +6,19 @@ public class EnemyStats : CharacterStats
 {
     private Enemy enemy;
     private ItemDrop myDropSystem;
+    public Stat sousDropAmount;
 
     [Header("Level Details")]
-    [SerializeField] private int level = 1;
+    [SerializeField]
+    private int level = 1;
 
     [Range(0f, 1f)]
-    [SerializeField] private float percantageModifier = .4f;
+    [SerializeField]
+    private float percantageModifier = .4f;
 
     protected override void Start()
     {
+        sousDropAmount.SetDefaultValue(100);
         ApplyLevelModifiers();
         base.Start();
 
@@ -41,6 +45,8 @@ public class EnemyStats : CharacterStats
         Modify(fireDamage);
         Modify(iceDamage);
         Modify(lightningDamage);
+
+        Modify(sousDropAmount);
     }
 
     private void Modify(Stat _stat)
@@ -64,6 +70,7 @@ public class EnemyStats : CharacterStats
 
         enemy.Die();
 
+        PlayerManager.instance.currency += sousDropAmount.GetValue();
         if (myDropSystem != null)
             myDropSystem.GenerateDrop();
     }

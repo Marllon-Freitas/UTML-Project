@@ -12,8 +12,16 @@ public class GameData
     public SerializableDictionary<string, bool> checkpoints;
     public string closestCheckpointId;
 
+    public float lostSoulsXPosition;
+    public float lostSoulsYPosition;
+    public int lostSoulsAmount;
+
     public GameData()
     {
+        this.lostSoulsXPosition = 0;
+        this.lostSoulsYPosition = 0;
+        this.lostSoulsAmount = 0;
+
         this.currency = 0;
         skillTree = new SerializableDictionary<string, bool>();
         inventory = new SerializableDictionary<string, int>();

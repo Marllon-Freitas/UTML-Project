@@ -7,9 +7,11 @@ public class CameraShakeManager : MonoBehaviour
 {
     public static CameraShakeManager Instance;
 
-    [SerializeField] private float globalShakeForce = 1f;
+    [SerializeField]
+    private float globalShakeForce = 1f;
 
-    [SerializeField] private CinemachineImpulseListener impulseListener;
+    [SerializeField]
+    public CinemachineImpulseListener impulseListener;
 
     private CinemachineImpulseDefinition impulseDefinition;
 
@@ -24,7 +26,10 @@ public class CameraShakeManager : MonoBehaviour
         impulseSource.GenerateImpulseWithForce(globalShakeForce);
     }
 
-    public void ScreenShakeFromProfile(ScreenShakeProfile profile, CinemachineImpulseSource impulseSource)
+    public void ScreenShakeFromProfile(
+        ScreenShakeProfile profile,
+        CinemachineImpulseSource impulseSource
+    )
     {
         //apply settings
         SetupScreenShakeSettings(profile, impulseSource);
@@ -33,7 +38,17 @@ public class CameraShakeManager : MonoBehaviour
         impulseSource.GenerateImpulseWithForce(profile.impulseForce);
     }
 
-    private void SetupScreenShakeSettings(ScreenShakeProfile profile, CinemachineImpulseSource impulseSource)
+    public void StopShake()
+    {
+        // stop the shake 
+        impulseListener = null;
+
+    }
+
+    private void SetupScreenShakeSettings(
+        ScreenShakeProfile profile,
+        CinemachineImpulseSource impulseSource
+    )
     {
         impulseDefinition = impulseSource.m_ImpulseDefinition;
 

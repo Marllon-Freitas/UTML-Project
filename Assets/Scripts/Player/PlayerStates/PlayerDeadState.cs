@@ -26,5 +26,7 @@ public class PlayerDeadState : PlayerState
     public override void Update()
     {
         base.Update();
+        // make player uninteractable with the environment
+        player.GetComponent<Player>().enabled = false;
     }
 }
