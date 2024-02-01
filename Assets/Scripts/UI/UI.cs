@@ -4,11 +4,31 @@ using UnityEngine;
 
 public class UI : MonoBehaviour
 {
-    [SerializeField] private GameObject characterUI;
-    [SerializeField] private GameObject skillTreeUI;
-    [SerializeField] private GameObject craftUI;
-    [SerializeField] private GameObject optionsUI;
-    [SerializeField] private GameObject inGameUi;
+    [Header("End Screen")]
+    [SerializeField]
+    private FadeScreen_UI fadeScreen;
+
+    [SerializeField]
+    private GameObject endText;
+
+    [SerializeField]
+    private GameObject restartButton;
+
+    [Space]
+    [SerializeField]
+    private GameObject characterUI;
+
+    [SerializeField]
+    private GameObject skillTreeUI;
+
+    [SerializeField]
+    private GameObject craftUI;
+
+    [SerializeField]
+    private GameObject optionsUI;
+
+    [SerializeField]
+    private GameObject inGameUi;
 
     public SkillToolTip_UI skillToolTip;
     public ItemToolTip_UI itemToolTip;
@@ -38,7 +58,6 @@ public class UI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
             SwitchWithKeyTo(craftUI);
 
-
         if (Input.GetKeyDown(KeyCode.K))
             SwitchWithKeyTo(skillTreeUI);
 
@@ -50,12 +69,13 @@ public class UI : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            transform.GetChild(i).gameObject.SetActive(false);
+            bool isFadeScreen = transform.GetChild(i).GetComponent<FadeScreen_UI>() != null;
+            if (isFadeScreen == false)
+                transform.GetChild(i).gameObject.SetActive(false);
         }
 
         if (_menu != null)
             _menu.SetActive(true);
-
     }
 
     public void SwitchWithKeyTo(GameObject _menu)
@@ -80,4 +100,20 @@ public class UI : MonoBehaviour
 
         SwitchTo(inGameUi);
     }
+
+    public void SwitchOnEndScreen()
+    {
+        fadeScreen.FadeOut();
+        StartCoroutine(EndScreenCoroutine());
+    }
+
+    IEnumerator EndScreenCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+        endText.SetActive(true);
+        yield return new WaitForSeconds(1.3f);
+        restartButton.SetActive(true);
+    }
+
+    public void RestartGameButton() => GameManager.instance.RestartScene();
 }

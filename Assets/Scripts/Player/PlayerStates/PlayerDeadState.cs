@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerDeadState : PlayerState
 {
-    public PlayerDeadState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerDeadState(Player player, PlayerStateMachine stateMachine, string animatorBoolName)
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void AnimationFinishTrigger()
     {
@@ -16,6 +15,7 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        GameObject.Find("Canvas").GetComponent<UI>().SwitchOnEndScreen();
     }
 
     public override void Exit()
