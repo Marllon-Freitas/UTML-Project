@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
 
     public bool playBackgroundMusic;
     private int backgroundMusicIndex;
+    private bool canPlaySoundEffect;
 
     private void Awake()
     {
@@ -24,6 +25,8 @@ public class AudioManager : MonoBehaviour
             Destroy(instance.gameObject);
         else
             instance = this;
+
+        Invoke("AllowSoundEffect", 1f);
     }
 
     private void Update()
@@ -41,6 +44,8 @@ public class AudioManager : MonoBehaviour
     {
         // if (soundEffects[_soundEffectIndex].isPlaying)
         //     return;
+        if (!canPlaySoundEffect)
+            return;
 
         if (
             _soundSource != null
@@ -74,6 +79,31 @@ public class AudioManager : MonoBehaviour
         for (int i = 0; i < backgroundMusic.Length; i++)
         {
             backgroundMusic[i].Stop();
+        }
+    }
+
+    private void AllowSoundEffect()
+    {
+        canPlaySoundEffect = true;
+    }
+
+    public void FadeOutSoundEffect(int _soundEffectIndex) =>
+        StartCoroutine(FadeOutVolume(soundEffects[_soundEffectIndex]));
+
+    IEnumerator FadeOutVolume(AudioSource _audioSource)
+    {
+        float defaultVolume = _audioSource.volume;
+        while (_audioSource.volume > 0.1f)
+        {
+            _audioSource.volume -= _audioSource.volume * 0.25f;
+            yield return new WaitForSeconds(0.25f);
+
+            if (_audioSource.volume < 0.1f)
+            {
+                _audioSource.Stop();
+                _audioSource.volume = defaultVolume;
+                break;
+            }
         }
     }
 }

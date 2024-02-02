@@ -79,7 +79,11 @@ public class UI : MonoBehaviour, ISaveManager
         }
 
         if (_menu != null)
+        {
+            if (AudioManager.instance != null)
+                AudioManager.instance.PlaySoundEffect(7, null);
             _menu.SetActive(true);
+        }
     }
 
     public void SwitchWithKeyTo(GameObject _menu)
