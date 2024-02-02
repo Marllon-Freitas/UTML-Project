@@ -10,6 +10,8 @@ public class GameData
     public SerializableDictionary<string, int> inventory;
     public List<string> equipmentId;
     public SerializableDictionary<string, bool> checkpoints;
+
+    public SerializableDictionary<string, float> volumeSettings;
     public string closestCheckpointId;
 
     public float lostSoulsXPosition;
@@ -29,5 +31,6 @@ public class GameData
 
         closestCheckpointId = string.Empty;
         checkpoints = new SerializableDictionary<string, bool>();
+        volumeSettings = new SerializableDictionary<string, float>();
     }
 }

@@ -39,8 +39,8 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySoundEffect(int _soundEffectIndex, Transform _soundSource)
     {
-        if (soundEffects[_soundEffectIndex].isPlaying)
-            return;
+        // if (soundEffects[_soundEffectIndex].isPlaying)
+        //     return;
 
         if (
             _soundSource != null
@@ -50,10 +50,12 @@ public class AudioManager : MonoBehaviour
             ) > distanceToHearSoundEffect
         )
             return;
-        else
-            soundEffects[_soundEffectIndex].Play();
+
         if (_soundEffectIndex < soundEffects.Length)
+        {
+            soundEffects[_soundEffectIndex].pitch = Random.Range(0.85f, 1.1f);
             soundEffects[_soundEffectIndex].Play();
+        }
     }
 
     public void StopSoundEffect(int _soundEffectIndex) => soundEffects[_soundEffectIndex].Stop();
