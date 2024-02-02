@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerWallSlideState : PlayerState
 {
-    public PlayerWallSlideState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerWallSlideState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        string animatorBoolName
+    )
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {

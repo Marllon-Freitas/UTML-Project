@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerWallJumpState : PlayerState
 {
-    public PlayerWallJumpState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerWallJumpState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        string animatorBoolName
+    )
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {

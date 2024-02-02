@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerState
 {
-    public PlayerDashState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerDashState(Player player, PlayerStateMachine stateMachine, string animatorBoolName)
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {

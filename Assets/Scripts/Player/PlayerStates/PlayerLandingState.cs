@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class PlayerLandingState : PlayerState
 {
-    public PlayerLandingState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerLandingState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        string animatorBoolName
+    )
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {

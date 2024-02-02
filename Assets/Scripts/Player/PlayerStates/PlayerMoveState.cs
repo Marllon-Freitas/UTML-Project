@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerMoveState(Player player, PlayerStateMachine stateMachine, string animatorBoolName)
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {

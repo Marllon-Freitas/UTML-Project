@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerAirState : PlayerState
 {
-    public PlayerAirState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerAirState(Player player, PlayerStateMachine stateMachine, string animatorBoolName)
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {

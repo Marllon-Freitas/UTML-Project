@@ -7,13 +7,18 @@ public class PlayerPrimaryAttackState : PlayerState
     public int comboCounter { get; private set; }
     private float lastTimeAttack;
     private float comboWindow = 2f;
-    public PlayerPrimaryAttackState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+
+    public PlayerPrimaryAttackState(
+        Player player,
+        PlayerStateMachine stateMachine,
+        string animatorBoolName
+    )
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {
         base.Enter();
+
         xInput = 0;
 
         if (comboCounter > 2 || Time.time >= lastTimeAttack + comboWindow)
@@ -23,9 +28,13 @@ public class PlayerPrimaryAttackState : PlayerState
 
         float attackDirection = player.facingDirection;
 
-        if (xInput != 0) attackDirection = xInput;
+        if (xInput != 0)
+            attackDirection = xInput;
 
-        player.SetVelocity(player.attackMovement[comboCounter].x * attackDirection, player.attackMovement[comboCounter].y);
+        player.SetVelocity(
+            player.attackMovement[comboCounter].x * attackDirection,
+            player.attackMovement[comboCounter].y
+        );
 
         stateTimer = 0.1f;
     }

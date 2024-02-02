@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerState
 {
-    public PlayerJumpState(Player player, PlayerStateMachine stateMachine, string animatorBoolName) : base(player, stateMachine, animatorBoolName)
-    {
-    }
+    public PlayerJumpState(Player player, PlayerStateMachine stateMachine, string animatorBoolName)
+        : base(player, stateMachine, animatorBoolName) { }
 
     public override void Enter()
     {
