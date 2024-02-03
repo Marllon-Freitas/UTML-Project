@@ -15,6 +15,7 @@ public class PlayerDeadState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        player.SetVelocity(0, 0);
         GameObject.Find("Canvas").GetComponent<UI>().SwitchOnEndScreen();
     }
 
@@ -26,7 +27,5 @@ public class PlayerDeadState : PlayerState
     public override void Update()
     {
         base.Update();
-        // make player uninteractable with the environment
-        player.GetComponent<Player>().enabled = false;
     }
 }

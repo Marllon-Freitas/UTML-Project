@@ -72,11 +72,14 @@ public class Player : Entity
     private GameObject cameraFollowGO;
     private CameraFollowObject cameraFollowObject;
     private float fallYSpeedYDampingChangeThreshold;
-    private CinemachineImpulseSource impulseSource;
+    public CinemachineImpulseSource impulseSource;
 
     [Header("Screen Shake")]
     [SerializeField]
     private ScreenShakeProfile screenShakeProfile;
+
+    [SerializeField]
+    public ScreenShakeProfile playersTakesALotOfDamageScreenShakeProfile;
     public bool isBusy { get; private set; }
 
     #endregion
@@ -158,6 +161,9 @@ public class Player : Entity
 
     protected override void Update()
     {
+        if (Time.timeScale == 0)
+            return;
+
         base.Update();
 
         counterAttackCooldownTimer -= Time.deltaTime;
@@ -208,6 +214,7 @@ public class Player : Entity
         base.DamageImpact();
         //shake the camera
         CameraShakeManager.Instance.ScreenShakeFromProfile(screenShakeProfile, impulseSource);
+        AudioManager.instance.PlaySoundEffect(36, null);
         //get player component from whatIsPlayer
         GetComponent<TimeStopWhenHit>()
             .StopTime(0.05f, 10, 0.1f);
@@ -335,6 +342,11 @@ public class Player : Entity
         base.Die();
 
         stateMachine.ChangeState(deadState);
+    }
+
+    protected override void SetupZeroKnockBackDirection()
+    {
+        knockBackDirection = Vector2.zero;
     }
 
     #region Input System

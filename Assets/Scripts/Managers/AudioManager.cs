@@ -106,4 +106,12 @@ public class AudioManager : MonoBehaviour
             }
         }
     }
+
+    // public void PauseAllSounds()
+    // {
+    //     for (int i = 0; i < soundEffects.Length; i++)
+    //     {
+    //         soundEffects[i].Pause();
+    //     }
+    // }
 }

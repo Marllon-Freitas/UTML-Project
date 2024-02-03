@@ -73,5 +73,7 @@ public class EnemyStats : CharacterStats
         PlayerManager.instance.currency += sousDropAmount.GetValue();
         if (myDropSystem != null)
             myDropSystem.GenerateDrop();
+
+        Destroy(gameObject, 5f);
     }
 }

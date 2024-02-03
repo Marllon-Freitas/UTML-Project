@@ -25,6 +25,8 @@ public class PlayerWallSlideState : PlayerState
     {
         base.Update();
 
+        if (player.IsWallDetected() == false)
+            stateMachine.ChangeState(player.airState);
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z))
         {
             stateMachine.ChangeState(player.wallJumpState);

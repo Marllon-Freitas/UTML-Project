@@ -16,8 +16,12 @@ public class PlayerDashState : PlayerState
             player.skillManager.dashSkill.CloneOnDash();
 
         stateTimer = player.dashDuration;
+        AudioManager.instance.PlaySoundEffect(39, null);
+
         if (player.IsGroundDetected())
             player.CreateDust();
+
+        player.characterStats.MakeInvencible(true);
     }
 
     public override void Exit()
@@ -26,6 +30,7 @@ public class PlayerDashState : PlayerState
 
         player.skillManager.dashSkill.CloneOnArrival();
         player.SetVelocity(0f, rb.velocity.y);
+        player.characterStats.MakeInvencible(false);
     }
 
     public override void Update()

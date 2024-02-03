@@ -1,18 +1,27 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Options_UI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private string sceneName = "MainMenu";
+
+    [SerializeField]
+    private GameObject backToMainMenuButton;
+
+    [SerializeField]
+    FadeScreen_UI fadeScreen;
+
+    public void BackToMainMenu()
     {
-        
+        StartCoroutine(LoadSceneWithFadeIn(1.5f));
     }
 
-    // Update is called once per frame
-    void Update()
+    public IEnumerator LoadSceneWithFadeIn(float _delay)
     {
-        
+        fadeScreen.FadeIn();
+        yield return new WaitForSeconds(_delay);
+        SceneManager.LoadScene(sceneName);
     }
 }

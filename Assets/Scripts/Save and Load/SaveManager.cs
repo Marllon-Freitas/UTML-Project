@@ -63,8 +63,8 @@ public class SaveManager : MonoBehaviour
         foreach (ISaveManager saveManager in saveManagers)
         {
             saveManager.LoadData(gameData);
+            Debug.Log("Loaded Curreny: " + gameData.skillTree);
         }
-        Debug.Log("Loaded Curreny: " + gameData.currency);
     }
 
     private void OnApplicationQuit()
@@ -82,13 +82,12 @@ public class SaveManager : MonoBehaviour
 
     public bool HasSaveData()
     {
+        Debug.Log("Checking for save data..." + dataHandle.Load());
         if (dataHandle.Load() != null)
         {
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 }

@@ -10,7 +10,7 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
+        AudioManager.instance.PlaySoundEffect(40, null);
         rb.velocity = new Vector2(rb.velocity.x, player.jumpForce);
         player.CreateDust();
     }
@@ -18,6 +18,7 @@ public class PlayerJumpState : PlayerState
     public override void Exit()
     {
         base.Exit();
+        AudioManager.instance.StopSoundEffect(40);
     }
 
     public override void Update()

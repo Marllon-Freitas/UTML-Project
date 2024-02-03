@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
@@ -17,6 +18,7 @@ public class Entity : MonoBehaviour
 
     [SerializeField]
     protected LayerMask whatIsGround;
+    public int knockBackDir { get; private set; }
 
     [Space]
     [SerializeField]
@@ -145,15 +147,28 @@ public class Entity : MonoBehaviour
 
     public virtual void DamageImpact() => StartCoroutine("HitKnockBack");
 
+    public virtual void SetupKnockBackDirection(Transform _damageDirection)
+    {
+        if (_damageDirection.position.x > transform.position.x)
+            knockBackDir = -1;
+        else if (_damageDirection.position.x < transform.position.x)
+            knockBackDir = 1;
+    }
+
+    protected virtual void SetupZeroKnockBackDirection() { }
+
+    public void SetupKnockBackPower(Vector2 knockBackPower) => knockBackDirection = knockBackPower;
+
     #endregion
 
     #region Knock back
     protected virtual IEnumerator HitKnockBack()
     {
         isKnocked = true;
-        rb.velocity = new Vector2(knockBackDirection.x * -facingDirection, knockBackDirection.y);
+        rb.velocity = new Vector2(knockBackDirection.x * knockBackDir, knockBackDirection.y);
         yield return new WaitForSeconds(knockBackDuration);
         isKnocked = false;
+        SetupZeroKnockBackDirection();
     }
     #endregion
 

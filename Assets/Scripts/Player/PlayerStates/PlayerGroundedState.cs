@@ -53,6 +53,7 @@ public class PlayerGroundedState : PlayerState
 
         if (Input.GetKeyDown(KeyCode.E) && player.skillManager.parrySkill.parryUnlocked)
         {
+            Debug.Log("Parry" + player.skillManager.parrySkill.parryUnlocked);
             // player.counterAttackCooldownTimer <= 0
             stateMachine.ChangeState(player.counterAttack);
             // player.counterAttackCooldownTimer = player.counterAttackCooldown;

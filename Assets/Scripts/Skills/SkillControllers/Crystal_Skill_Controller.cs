@@ -10,7 +10,6 @@ public class Crystal_Skill_Controller : MonoBehaviour
 
     private float crystalExistTimer;
 
-
     private bool canExplode;
     private bool canMove;
     private float moveSpeed;
@@ -19,8 +18,18 @@ public class Crystal_Skill_Controller : MonoBehaviour
     private float growSpeed = 5;
 
     private Transform closestTarget;
-    [SerializeField] private LayerMask whatIsEnemy;
-    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed, Transform _closestTarget, Player _player)
+
+    [SerializeField]
+    private LayerMask whatIsEnemy;
+
+    public void SetupCrystal(
+        float _crystalDuration,
+        bool _canExplode,
+        bool _canMove,
+        float _moveSpeed,
+        Transform _closestTarget,
+        Player _player
+    )
     {
         player = _player;
         crystalExistTimer = _crystalDuration;
@@ -34,12 +43,15 @@ public class Crystal_Skill_Controller : MonoBehaviour
     {
         float radius = SkillManager.instance.blackHoleSkill.GetBlackHoleRadius();
 
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius, whatIsEnemy);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(
+            transform.position,
+            radius,
+            whatIsEnemy
+        );
 
         if (colliders.Length > 0)
             closestTarget = colliders[Random.Range(0, colliders.Length)].transform;
     }
-
 
     private void Update()
     {
@@ -48,7 +60,6 @@ public class Crystal_Skill_Controller : MonoBehaviour
         if (crystalExistTimer < 0)
         {
             FinishCrystal();
-
         }
 
         if (canMove)
@@ -56,7 +67,11 @@ public class Crystal_Skill_Controller : MonoBehaviour
             if (closestTarget == null)
                 return;
 
-            transform.position = Vector2.MoveTowards(transform.position, closestTarget.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                closestTarget.position,
+                moveSpeed * Time.deltaTime
+            );
 
             if (Vector2.Distance(transform.position, closestTarget.position) < 1)
             {
@@ -66,7 +81,11 @@ public class Crystal_Skill_Controller : MonoBehaviour
         }
 
         if (canGrow)
-            transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(3, 3), growSpeed * Time.deltaTime);
+            transform.localScale = Vector2.Lerp(
+                transform.localScale,
+                new Vector2(3, 3),
+                growSpeed * Time.deltaTime
+            );
     }
 
     private void AnimationExplodeEvent()
@@ -77,9 +96,13 @@ public class Crystal_Skill_Controller : MonoBehaviour
         {
             if (hit.GetComponent<Enemy>() != null)
             {
+                hit.GetComponent<Entity>().SetupKnockBackDirection(transform);
+
                 player.characterStats.DoMagicDamage(hit.GetComponent<CharacterStats>());
 
-                ItemData_Equipment equipAmulet = Inventory.instance.GetEquipment(EquipmentType.Amulet);
+                ItemData_Equipment equipAmulet = Inventory.instance.GetEquipment(
+                    EquipmentType.Amulet
+                );
 
                 if (equipAmulet != null)
                     equipAmulet.Effect(hit.transform);

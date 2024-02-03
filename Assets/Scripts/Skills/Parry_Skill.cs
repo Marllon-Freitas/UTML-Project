@@ -60,19 +60,19 @@ public class Parry_Skill : Skill
 
     private void UnlockParry()
     {
-        if (parryUnlockButton == true)
+        if (parryUnlockButton.unlocked)
             parryUnlocked = true;
     }
 
     private void UnlockParryRestoreHealth()
     {
-        if (parryRestoreHealthUnlockButton == true)
+        if (parryRestoreHealthUnlockButton.unlocked)
             parryRestoreHealthUnlocked = true;
     }
 
     private void UnlockParryWithMirage()
     {
-        if (parryWithMirageUnlockButton == true)
+        if (parryWithMirageUnlockButton.unlocked)
             parryWithMirageUnlocked = true;
     }
 

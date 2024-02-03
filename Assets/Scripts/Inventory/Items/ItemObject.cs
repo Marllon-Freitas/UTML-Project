@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private ItemData itemData;
+    [SerializeField]
+    private Rigidbody2D rb;
+
+    [SerializeField]
+    private ItemData itemData;
+
     private void SetupVisuals()
     {
         if (itemData == null)
@@ -14,7 +18,6 @@ public class ItemObject : MonoBehaviour
         GetComponent<SpriteRenderer>().sprite = itemData.itemIcon;
         gameObject.name = "Item object - " + itemData.itemName;
     }
-
 
     public void SetupItem(ItemData _itemData, Vector2 _velocity)
     {
@@ -29,6 +32,7 @@ public class ItemObject : MonoBehaviour
         if (!Inventory.instance.CanAddItem() && itemData.itemType == ItemType.Equipment)
         {
             rb.velocity = new Vector2(0, 7);
+            PlayerManager.instance.player.entityFX.CreatePopUpText("Inventory is full");
             return;
         }
 

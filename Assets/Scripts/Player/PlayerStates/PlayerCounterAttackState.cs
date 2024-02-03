@@ -45,6 +45,7 @@ public class PlayerCounterAttackState : PlayerState
                 {
                     stateTimer = 10;
                     player.animator.SetBool("SuccessfulCounterAttack", true);
+                    AudioManager.instance.PlaySoundEffect(44, null);
                     player.GetComponent<TimeStopWhenHit>().StopTime(0.07f, 11, 0.2f);
 
                     player.skillManager.parrySkill.UseSkill(); // restore health on parry

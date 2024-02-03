@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerStats : CharacterStats
@@ -21,6 +22,17 @@ public class PlayerStats : CharacterStats
     protected override void DecreaseHealthBy(int _damage)
     {
         base.DecreaseHealthBy(_damage);
+
+        if (_damage > GetMaxHealthValue() * 0.3f)
+        {
+            player.SetupKnockBackPower(new Vector2(10, 6));
+            CameraShakeManager.Instance.ScreenShakeFromProfile(
+                player.playersTakesALotOfDamageScreenShakeProfile,
+                player.impulseSource
+            );
+            AudioManager.instance.PlaySoundEffect(47, null);
+            Debug.Log("Player is taking a lot of damage");
+        }
 
         ItemData_Equipment currentArmor = Inventory.instance.GetEquipment(EquipmentType.Armor);
 

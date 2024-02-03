@@ -34,10 +34,10 @@ public class MainMenu_UI : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Quitting game...");
-        // Application.Quit();
+        Application.Quit();
     }
 
-    IEnumerator LoadSceneWithFade(float _delay)
+    public IEnumerator LoadSceneWithFade(float _delay)
     {
         fadeScreen.FadeOut();
         yield return new WaitForSeconds(_delay);

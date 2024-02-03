@@ -118,10 +118,11 @@ public class Sword_Skill : Skill
 
     protected override void CheckUnlock()
     {
+        base.CheckUnlock();
         UnlockSword();
+        UnlockBounceSword();
         UnlockTimeStop();
         Unlockvulnerable();
-        UnlockBounceSword();
         UnlockPierceSword();
         UnlockSpinSword();
     }
@@ -185,7 +186,7 @@ public class Sword_Skill : Skill
     #region Unlocking Skills
     public void UnlockSword()
     {
-        if (swordUnlockButton.unlocked)
+        if (swordUnlockButton != null && swordUnlockButton.unlocked)
         {
             swordUnlockd = true;
             swordType = SwordType.Regular;

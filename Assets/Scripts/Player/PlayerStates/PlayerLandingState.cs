@@ -14,6 +14,7 @@ public class PlayerLandingState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        AudioManager.instance.PlaySoundEffect(46, null);
         player.CreateDust();
     }
 

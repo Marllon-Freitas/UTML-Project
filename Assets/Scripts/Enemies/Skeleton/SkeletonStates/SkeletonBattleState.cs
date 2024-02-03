@@ -7,7 +7,14 @@ public class SkeletonBattleState : EnemyState
     private Transform player;
     private Enemy_Skeleton _enemy;
     private int moveDirection;
-    public SkeletonBattleState(Enemy enemyBase, EnemyStateMachine stateMachine, string animatorBoolName, Enemy_Skeleton enemy) : base(enemy, stateMachine, animatorBoolName)
+
+    public SkeletonBattleState(
+        Enemy enemyBase,
+        EnemyStateMachine stateMachine,
+        string animatorBoolName,
+        Enemy_Skeleton enemy
+    )
+        : base(enemy, stateMachine, animatorBoolName)
     {
         _enemy = enemy;
     }
@@ -17,6 +24,9 @@ public class SkeletonBattleState : EnemyState
         base.Enter();
 
         player = PlayerManager.instance.player.transform;
+
+        if (player.GetComponent<PlayerStats>().isDead)
+            stateMachine.ChangeState(_enemy.IdleState);
     }
 
     public override void Exit()
@@ -39,7 +49,10 @@ public class SkeletonBattleState : EnemyState
         }
         else
         {
-            if (stateTimer <= 0 || Vector2.Distance(player.transform.position, _enemy.transform.position) > 7)
+            if (
+                stateTimer <= 0
+                || Vector2.Distance(player.transform.position, _enemy.transform.position) > 7
+            )
                 stateMachine.ChangeState(_enemy.IdleState);
         }
 
@@ -55,6 +68,10 @@ public class SkeletonBattleState : EnemyState
     {
         if (Time.time >= _enemy.lastTimeAttacked + _enemy.attackCooldown)
         {
+            _enemy.attackCooldown = Random.Range(
+                _enemy.minAttackCooldown,
+                _enemy.maxAttackCooldown
+            );
             _enemy.lastTimeAttacked = Time.time;
             return true;
         }

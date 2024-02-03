@@ -76,6 +76,7 @@ public class CharacterStats : MonoBehaviour
 
     public bool isDead { get; private set; }
     private bool isVulnerable;
+    public bool isInvenctible { get; private set; }
 
     protected virtual void Start()
     {
@@ -105,15 +106,22 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void DoDamage(CharacterStats _targetStats)
     {
+        bool criticalStrike = false;
+
         if (TargetCanAvoidAttack(_targetStats))
             return;
+
+        _targetStats.GetComponent<Entity>().SetupKnockBackDirection(transform);
 
         int totalDamage = damage.GetValue() + strength.GetValue();
 
         if (CanCrit())
         {
             totalDamage = CalculateCritDamage(totalDamage);
+            criticalStrike = true;
         }
+
+        fx.CreateHitFx(_targetStats.transform, criticalStrike);
 
         totalDamage = CheckTargetArmor(_targetStats, totalDamage);
         _targetStats.TakeDamage(totalDamage);
@@ -334,6 +342,8 @@ public class CharacterStats : MonoBehaviour
 
     public virtual void TakeDamage(int _damage)
     {
+        if (isInvenctible)
+            return;
         DecreaseHealthBy(_damage);
         Debug.Log(transform.name + " takes " + _damage + " damage.");
         GetComponent<Entity>().DamageImpact();
@@ -346,6 +356,9 @@ public class CharacterStats : MonoBehaviour
     {
         if (isVulnerable)
             _damage = Mathf.RoundToInt(_damage * 1.1f);
+
+        if (_damage > 0)
+            fx.CreatePopUpText(_damage.ToString());
 
         currentHealth -= _damage;
         onHealthChanged?.Invoke();
@@ -379,6 +392,14 @@ public class CharacterStats : MonoBehaviour
         isDead = true;
         Debug.Log(transform.name + " died.");
     }
+
+    public void KillEntity()
+    {
+        if (!isDead)
+            Die();
+    }
+
+    public void MakeInvencible(bool _invencible) => isInvenctible = _invencible;
 
     public virtual void OnEvasion() { }
 
